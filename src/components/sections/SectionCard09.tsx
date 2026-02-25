@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
-import Flicking from '@egjs/react-flicking';
-import '@egjs/react-flicking/dist/flicking.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper as SwiperClass } from 'swiper';
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css';
 import { loanData } from '../../data/mockData';
 import { useInView } from '../../hooks/useInView';
 import Pagination from '../common/Pagination';
@@ -34,6 +36,7 @@ const TextBox = styled(motion.div)`
   flex-direction: column;
   gap: 1rem;
   align-self: flex-start;
+  width: 100%;
 `;
 
 const Title = styled.h2`
@@ -58,12 +61,13 @@ const Desc = styled.p`
 const ImgBox = styled.div`
   width: 13.375rem;
   height: 12.1875rem;
+  flex-shrink: 0;
   border-radius: 1rem;
   overflow: hidden;
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 `;
 
@@ -76,69 +80,59 @@ const PaginationWrapper = styled.div`
 
 const SectionCard09 = ({ onView }: { onView?: () => void }) => {
   const { ref, inView } = useInView(0.4);
+  const swiperRef = useRef<SwiperClass | null>(null);
   const [current, setCurrent] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const flickingRef = useRef<any>(null);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const stopAuto = useCallback(() => {
-    if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
-    setIsPlaying(false);
-  }, []);
-
-  const startAuto = useCallback(() => {
-    if (timerRef.current) return;
-    timerRef.current = setInterval(() => {
-      setCurrent(prev => {
-        const next = (prev + 1) % loanData.length;
-        flickingRef.current?.moveTo(next, 400).catch(() => {});
-        return next;
-      });
-    }, 3000);
-    setIsPlaying(true);
-  }, []);
 
   useEffect(() => {
-    if (inView) { onView?.(); startAuto(); }
-    else stopAuto();
-    return () => stopAuto();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!swiperRef.current) return;
+    if (inView) {
+      onView?.();
+      swiperRef.current.autoplay?.start();
+    } else {
+      swiperRef.current.autoplay?.stop();
+    }
   }, [inView]);
-
-  const handleDotClick = (i: number) => {
-    flickingRef.current?.moveTo(i, 400).catch(() => {});
-    setCurrent(i);
-  };
 
   return (
     <Container ref={ref}>
-      <Flicking
-        ref={flickingRef}
-        align="prev"
-        circular={true}
-        onChanged={(e: any) => setCurrent(e.index)}
+      <Swiper
+        modules={[Autoplay]}
+        slidesPerView={1}
+        loop
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        onSwiper={(s: SwiperClass) => { swiperRef.current = s; }}
+        onSlideChange={(s: SwiperClass) => setCurrent(s.realIndex)}
+        style={{ width: '100%' }}
       >
         {loanData.map((item, i) => (
-          <Slide key={i} bg={item.bg}>
-            <TextBox
-              initial={{ opacity: 0 }}
-              animate={{ opacity: inView ? 1 : 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <Title>{item.title}{'\n'}<Accent>{item.accent}</Accent></Title>
-              <Desc>{item.desc}</Desc>
-            </TextBox>
-            <ImgBox><img src={item.imgUrl} alt={item.accent} /></ImgBox>
-          </Slide>
+          <SwiperSlide key={i}>
+            <Slide bg={item.bg}>
+              <TextBox
+                initial={{ opacity: 0 }}
+                animate={{ opacity: inView ? 1 : 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <Title>{item.title}{'\n'}<Accent>{item.accent}</Accent></Title>
+                <Desc>{item.desc}</Desc>
+              </TextBox>
+              <ImgBox>
+                <img src={item.imgUrl} alt={item.accent} />
+              </ImgBox>
+            </Slide>
+          </SwiperSlide>
         ))}
-      </Flicking>
+      </Swiper>
       <PaginationWrapper>
         <Pagination
           total={loanData.length}
           current={current}
           isPlaying={isPlaying}
-          onDotClick={handleDotClick}
-          onPlayToggle={() => isPlaying ? stopAuto() : startAuto()}
+          onDotClick={(i) => { swiperRef.current?.slideTo(i); }}
+          onPlayToggle={() => {
+            if (isPlaying) { swiperRef.current?.autoplay?.stop(); setIsPlaying(false); }
+            else { swiperRef.current?.autoplay?.start(); setIsPlaying(true); }
+          }}
         />
       </PaginationWrapper>
     </Container>
