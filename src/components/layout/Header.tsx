@@ -43,15 +43,18 @@ const RightGroup = styled.div`
 const AppBtn = styled.a`
   font-size: 0.825rem;
   font-weight: 700;
-  color: #4262ff;
-  background: #ffffff;
-  border: 1.5px solid #4262ff;
-  padding: 0.4rem 0.9rem;
+  color: #ffffff;
+  background: #4262ff;
+  padding: 0.4rem 1rem;
   border-radius: 2rem;
   text-decoration: none;
   white-space: nowrap;
-  transition: background 0.2s, color 0.2s;
-  &:hover { background: #4262ff; color: #ffffff; }
+  box-shadow: 0 2px 8px rgba(66, 98, 255, 0.3);
+  transition: background 0.2s, box-shadow 0.2s;
+  &:hover {
+    background: #2d4de0;
+    box-shadow: 0 4px 12px rgba(66, 98, 255, 0.45);
+  }
 `;
 
 /* 햄버거 메뉴 버튼 — 원형 배경 없음, 단순 3선 */
