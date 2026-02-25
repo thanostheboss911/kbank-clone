@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import { motion } from 'framer-motion';
 import { investImages } from '../../data/mockData';
 import { useInView } from '../../hooks/useInView';
 
@@ -45,7 +44,7 @@ const ItemBox = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 1.75rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 700;
   color: #020616;
   line-height: 1.35;
@@ -57,7 +56,7 @@ const AccentText = styled.span`
   background: linear-gradient(90deg, #098bfe 3%, #4262ff 77%, #201e81 304%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 2rem;
+  font-size: clamp(1.6rem, 5vw, 2rem);
   font-weight: 700;
 `;
 

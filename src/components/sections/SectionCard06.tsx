@@ -34,10 +34,6 @@ const PhoneFrame = styled.div`
   transform: translateX(-50%);
 `;
 
-const ScrollImg = styled(motion.img)`
-  width: 100%;
-`;
-
 const ItemBox = styled.div`
   position: absolute;
   left: 1.75rem;
@@ -45,7 +41,7 @@ const ItemBox = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 1.75rem;
+  font-size: clamp(1.5rem, 4vw, 1.75rem);
   font-weight: 700;
   color: #020616;
   white-space: pre-line;
@@ -65,7 +61,7 @@ const Card2 = styled(Card)`
 `;
 
 const Title2 = styled.h2`
-  font-size: 1.75rem;
+  font-size: clamp(1.5rem, 4vw, 1.75rem);
   font-weight: 700;
   color: #020616;
   white-space: pre-line;
@@ -85,17 +81,54 @@ const SmallText = styled.p`
 `;
 
 const DescText = styled.p`
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
   color: rgba(0,0,0,0.5);
   line-height: 1.6;
   white-space: pre-line;
 `;
 
+/* Profile group */
+const ProfileGroup = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+`;
+
+const ProfileImg = styled.img`
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin-left: -0.5rem;
+  object-fit: cover;
+  &:first-of-type {
+    margin-left: 0;
+  }
+`;
+
+const MoreBtn = styled.div`
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  margin-left: -0.5rem;
+  color: #555;
+  font-weight: 700;
+`;
+
+const PROFILE_SEEDS = ['profile1', 'profile2', 'profile3', 'profile4'];
+
 const SectionCard06 = ({ onView }: { onView?: () => void }) => {
   const { ref, inView } = useInView(0.5);
   const [count, setCount] = useState(0);
+  const [scrollY, setScrollY] = useState(130);
   const startRef = useRef<number | null>(null);
 
+  // 카운터 애니메이션
   useEffect(() => {
     if (!inView) return;
     onView?.();
@@ -112,6 +145,16 @@ const SectionCard06 = ({ onView }: { onView?: () => void }) => {
     requestAnimationFrame(animate);
   }, [inView]);
 
+  // 패럴랙스 스크롤
+  useEffect(() => {
+    const onScroll = () => {
+      const val = Math.max(130, window.scrollY - 4600 + 130);
+      setScrollY(val);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <Container ref={ref}>
       {/* Card 1 - 스크롤 이미지 */}
@@ -124,12 +167,15 @@ const SectionCard06 = ({ onView }: { onView?: () => void }) => {
           </Title>
         </ItemBox>
         <PhoneFrame>
-          <motion.img
-            src="https://picsum.photos/seed/sme1/300/800"
+          <img
+            src="https://picsum.photos/seed/sme_scroll/300/1200"
             alt="SME"
-            style={{ width: '100%' }}
-            animate={inView ? { y: [0, -60] } : { y: 0 }}
-            transition={{ duration: 3, ease: 'linear', repeat: Infinity, repeatType: 'reverse' }}
+            style={{
+              width: '100%',
+              height: 'auto',
+              transform: `translateY(-${scrollY}px)`,
+              transition: 'transform 0.1s linear',
+            }}
           />
         </PhoneFrame>
       </Card>
@@ -142,6 +188,16 @@ const SectionCard06 = ({ onView }: { onView?: () => void }) => {
         </Title2>
         <div>
           <DescText>케이뱅크 사장님 대출상품{'\n'}총 가입자 수</DescText>
+          <ProfileGroup>
+            {PROFILE_SEEDS.map((seed) => (
+              <ProfileImg
+                key={seed}
+                src={`https://picsum.photos/seed/${seed}/50/50`}
+                alt="가입자"
+              />
+            ))}
+            <MoreBtn>+</MoreBtn>
+          </ProfileGroup>
           <CounterNum
             initial={{ opacity: 0 }}
             animate={{ opacity: inView ? 1 : 0 }}

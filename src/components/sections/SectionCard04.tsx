@@ -43,7 +43,7 @@ const ItemBox = styled.div`
 `;
 
 const Title = styled(motion.h2)`
-  font-size: 1.75rem;
+  font-size: clamp(1.5rem, 4vw, 1.75rem);
   font-weight: 700;
   color: #ffffff;
   white-space: pre-line;
@@ -52,7 +52,7 @@ const Title = styled(motion.h2)`
 `;
 
 const Desc = styled(motion.p)`
-  font-size: 0.9rem;
+  font-size: clamp(0.85rem, 2vw, 0.9rem);
   color: rgba(255,255,255,0.75);
   line-height: 1.6;
   white-space: pre-line;
@@ -65,16 +65,21 @@ const PaginationWrapper = styled.div`
   z-index: 3;
 `;
 
+type Direction = 'prev' | 'next';
+
 const SectionCard04 = ({ onView }: { onView?: () => void }) => {
   const { ref, inView } = useInView(0.5);
   const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState<Direction>('next');
   const [isPlaying, setIsPlaying] = useState(true);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const goTo = useCallback((idx: number) => {
+  const goTo = useCallback((idx: number, dir?: Direction) => {
     const next = (idx + lifeData.length) % lifeData.length;
+    const resolvedDir = dir ?? (next > current ? 'next' : 'prev');
+    setDirection(resolvedDir);
     videoRefs.current[current]?.pause();
     if (wrapperRef.current) wrapperRef.current.style.transform = `translateX(-${next * 100}%)`;
     setCurrent(next);
@@ -85,6 +90,7 @@ const SectionCard04 = ({ onView }: { onView?: () => void }) => {
     if (timerRef.current) return;
     videoRefs.current[current]?.play().catch(() => {});
     timerRef.current = setInterval(() => {
+      setDirection('next');
       setCurrent(prev => {
         const next = (prev + 1) % lifeData.length;
         videoRefs.current[prev]?.pause();
@@ -106,7 +112,10 @@ const SectionCard04 = ({ onView }: { onView?: () => void }) => {
     if (inView) { onView?.(); startAuto(); }
     else stopAuto();
     return () => stopAuto();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
+
+  const initialX = direction === 'next' ? -30 : 30;
 
   return (
     <Container ref={ref}>
@@ -125,8 +134,8 @@ const SectionCard04 = ({ onView }: { onView?: () => void }) => {
       </div>
       <ItemBox>
         <Title
-          key={current}
-          initial={{ opacity: 0, x: -30 }}
+          key={`title-${current}`}
+          initial={{ opacity: 0, x: initialX }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
         >
@@ -134,7 +143,7 @@ const SectionCard04 = ({ onView }: { onView?: () => void }) => {
         </Title>
         <Desc
           key={`desc-${current}`}
-          initial={{ opacity: 0, x: -30 }}
+          initial={{ opacity: 0, x: initialX }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
@@ -146,7 +155,10 @@ const SectionCard04 = ({ onView }: { onView?: () => void }) => {
           total={lifeData.length}
           current={current}
           isPlaying={isPlaying}
-          onDotClick={goTo}
+          onDotClick={(idx) => {
+            const dir: Direction = idx > current ? 'next' : 'prev';
+            goTo(idx, dir);
+          }}
           onPlayToggle={() => isPlaying ? stopAuto() : startAuto()}
         />
       </PaginationWrapper>

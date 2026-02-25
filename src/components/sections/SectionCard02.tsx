@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
+import Flicking from '@egjs/react-flicking';
+import '@egjs/react-flicking/dist/flicking.css';
 import { depositData } from '../../data/mockData';
 import { useInView } from '../../hooks/useInView';
 import Pagination from '../common/Pagination';
@@ -15,20 +17,16 @@ const Container = styled.div`
   &:active { transform: scale(0.98); }
 `;
 
-const SliderWrapper = styled.div`
-  display: flex;
-  transition: transform 0.4s ease;
-`;
-
 const Slide = styled.div<{ bg: string }>`
-  min-width: 100%;
+  width: 100%;
   height: 37.3125rem;
   background: ${({ bg }) => bg};
-  padding: 3.25rem 1.75rem 3.25rem 1.75rem;
+  padding: 3.25rem 1.75rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
 `;
 
 const TextBox = styled(motion.div)`
@@ -39,7 +37,7 @@ const TextBox = styled(motion.div)`
 `;
 
 const Title = styled.h2`
-  font-size: 1.75rem;
+  font-size: clamp(1.5rem, 4vw, 1.75rem);
   font-weight: 700;
   color: #020616;
   line-height: 1.35;
@@ -51,7 +49,7 @@ const Accent = styled.span`
 `;
 
 const Desc = styled.p`
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
   color: rgba(0,0,0,0.5);
   line-height: 1.6;
   white-space: pre-line;
@@ -80,15 +78,12 @@ const SectionCard02 = ({ onView }: { onView?: () => void }) => {
   const { ref, inView } = useInView(0.4);
   const [current, setCurrent] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const flickingRef = useRef<any>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const goTo = useCallback((idx: number) => {
-    const next = (idx + depositData.length) % depositData.length;
-    setCurrent(next);
-    if (wrapperRef.current) {
-      wrapperRef.current.style.transform = `translateX(-${next * 100}%)`;
-    }
+  const stopAuto = useCallback(() => {
+    if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
+    setIsPlaying(false);
   }, []);
 
   const startAuto = useCallback(() => {
@@ -96,49 +91,53 @@ const SectionCard02 = ({ onView }: { onView?: () => void }) => {
     timerRef.current = setInterval(() => {
       setCurrent(prev => {
         const next = (prev + 1) % depositData.length;
-        if (wrapperRef.current) wrapperRef.current.style.transform = `translateX(-${next * 100}%)`;
+        flickingRef.current?.moveTo(next, 400).catch(() => {});
         return next;
       });
     }, 3000);
     setIsPlaying(true);
   }, []);
 
-  const stopAuto = useCallback(() => {
-    if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
-    setIsPlaying(false);
-  }, []);
-
   useEffect(() => {
     if (inView) { onView?.(); startAuto(); }
     else stopAuto();
     return () => stopAuto();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
+
+  const handleDotClick = (i: number) => {
+    flickingRef.current?.moveTo(i, 400).catch(() => {});
+    setCurrent(i);
+  };
 
   return (
     <Container ref={ref}>
-      <div style={{ overflow: 'hidden' }}>
-        <SliderWrapper ref={wrapperRef}>
-          {depositData.map((item, i) => (
-            <Slide key={i} bg={item.bg}>
-              <TextBox
-                initial={{ opacity: 0 }}
-                animate={{ opacity: inView ? 1 : 0 }}
-                transition={{ duration: 0.8, delay: 0.15 }}
-              >
-                <Title>{item.title}{'\n'}<Accent>{item.accent}</Accent></Title>
-                <Desc>{item.desc}</Desc>
-              </TextBox>
-              <ImgBox><img src={item.imgUrl} alt={item.accent} /></ImgBox>
-            </Slide>
-          ))}
-        </SliderWrapper>
-      </div>
+      <Flicking
+        ref={flickingRef}
+        align="prev"
+        circular={true}
+        onChanged={(e: any) => setCurrent(e.index)}
+      >
+        {depositData.map((item, i) => (
+          <Slide key={i} bg={item.bg}>
+            <TextBox
+              initial={{ opacity: 0 }}
+              animate={{ opacity: inView ? 1 : 0 }}
+              transition={{ duration: 0.8, delay: 0.15 }}
+            >
+              <Title>{item.title}{'\n'}<Accent>{item.accent}</Accent></Title>
+              <Desc>{item.desc}</Desc>
+            </TextBox>
+            <ImgBox><img src={item.imgUrl} alt={item.accent} /></ImgBox>
+          </Slide>
+        ))}
+      </Flicking>
       <PaginationWrapper>
         <Pagination
           total={depositData.length}
           current={current}
           isPlaying={isPlaying}
-          onDotClick={(i) => { goTo(i); }}
+          onDotClick={handleDotClick}
           onPlayToggle={() => isPlaying ? stopAuto() : startAuto()}
         />
       </PaginationWrapper>

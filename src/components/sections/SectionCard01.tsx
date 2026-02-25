@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -45,7 +45,7 @@ const ItemBox = styled(motion.div)`
 `;
 
 const Title = styled.h2`
-  font-size: 1.75rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 700;
   color: #ffffff;
   line-height: 1.35;
@@ -54,7 +54,7 @@ const Title = styled.h2`
 `;
 
 const Desc = styled.p`
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 1rem);
   color: rgba(255,255,255,0.75);
   line-height: 1.6;
   white-space: pre-line;

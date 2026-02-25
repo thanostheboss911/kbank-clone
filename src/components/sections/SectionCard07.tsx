@@ -42,7 +42,7 @@ const TextBox = styled(motion.div)`
 `;
 
 const Title = styled.h2`
-  font-size: 1.5rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 700;
   color: #020616;
   line-height: 1.35;

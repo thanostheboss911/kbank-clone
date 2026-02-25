@@ -42,7 +42,7 @@ const ItemBox = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 1.5rem;
+  font-size: clamp(1.3rem, 3.5vw, 1.75rem);
   font-weight: 700;
   color: #ffffff;
   white-space: pre-line;
@@ -51,7 +51,7 @@ const Title = styled.h2`
 `;
 
 const SubDesc = styled.p`
-  font-size: 0.9rem;
+  font-size: clamp(0.85rem, 2vw, 1rem);
   color: rgba(255,255,255,0.7);
 `;
 
