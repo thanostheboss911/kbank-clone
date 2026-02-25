@@ -2,6 +2,8 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const LOGO_SVG = `${process.env.PUBLIC_URL}/assets/kbank/KbankLogo.svg`;
+
 /* ─────────────── Header ─────────────── */
 const HeaderWrapper = styled.header`
   position: fixed;
@@ -17,18 +19,14 @@ const HeaderWrapper = styled.header`
   background: #ffffff;
 `;
 
-/* ── 로고: "Kbank" K 대문자, 짙은 남색 ── */
+/* ── 로고 ── */
 const Logo = styled.a`
-  font-size: 1.45rem;
-  font-weight: 900;
-  color: #17008c;
-  letter-spacing: -0.04em;
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  line-height: 1;
-
-  /* K는 대문자, bank는 소문자 그대로 */
-  span.k {
-    color: #17008c;
+  img {
+    height: 1.1rem;
+    width: auto;
   }
 `;
 
@@ -110,11 +108,10 @@ const DrawerTop = styled.div`
   border-bottom: 1px solid #f0f0f0;
 `;
 
-const DrawerLogo = styled.span`
-  font-size: 1.25rem;
-  font-weight: 900;
-  color: #17008c;
-  letter-spacing: -0.04em;
+const DrawerLogo = styled.div`
+  display: flex;
+  align-items: center;
+  img { height: 1rem; width: auto; }
 `;
 
 const CloseBtn = styled.button`
@@ -172,9 +169,9 @@ const Header = () => {
   return (
     <>
       <HeaderWrapper>
-        {/* 로고: Kbank */}
+        {/* 로고: SVG */}
         <Logo href="https://www.kbanknow.com" target="_blank" rel="noreferrer">
-          Kbank
+          <img src={LOGO_SVG} alt="Kbank" />
         </Logo>
 
         <RightGroup>
@@ -212,7 +209,7 @@ const Header = () => {
               transition={{ type: 'tween', duration: 0.26, ease: 'easeInOut' }}
             >
               <DrawerTop>
-                <DrawerLogo>Kbank</DrawerLogo>
+                <DrawerLogo><img src={LOGO_SVG} alt="Kbank" /></DrawerLogo>
                 <CloseBtn onClick={() => setOpen(false)} aria-label="닫기">✕</CloseBtn>
               </DrawerTop>
               <DrawerList>
