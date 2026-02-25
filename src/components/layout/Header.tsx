@@ -14,9 +14,7 @@ const HeaderWrapper = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 0 1.25rem;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: #ffffff;
 `;
 
 /* ── 로고: "Kbank" K 대문자, 짙은 남색 ── */
@@ -45,14 +43,15 @@ const RightGroup = styled.div`
 const AppBtn = styled.a`
   font-size: 0.825rem;
   font-weight: 700;
-  color: #ffffff;
-  background: #4262ff;
+  color: #4262ff;
+  background: #ffffff;
+  border: 1.5px solid #4262ff;
   padding: 0.4rem 0.9rem;
   border-radius: 2rem;
   text-decoration: none;
   white-space: nowrap;
-  transition: background 0.2s;
-  &:hover { background: #2d4de0; }
+  transition: background 0.2s, color 0.2s;
+  &:hover { background: #4262ff; color: #ffffff; }
 `;
 
 /* 햄버거 메뉴 버튼 — 원형 배경 없음, 단순 3선 */
