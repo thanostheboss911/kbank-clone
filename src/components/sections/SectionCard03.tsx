@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { useInView } from '../../hooks/useInView';
+import { cardVideoUrl } from '../../data/mockData';
 
 const Container = styled(motion.div)`
   width: 100%;
@@ -43,9 +44,6 @@ const Desc = styled.p`
   white-space: pre-line;
 `;
 
-// 무료 샘플 비디오 (Big Buck Bunny)
-const VIDEO_URL = 'https://www.w3schools.com/html/mov_bbb.mp4';
-
 const SectionCard03 = ({ onView }: { onView?: () => void }) => {
   const { ref, inView } = useInView(0.4);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -67,7 +65,7 @@ const SectionCard03 = ({ onView }: { onView?: () => void }) => {
       transition={{ duration: 3 }}
       onClick={() => window.open('https://www.kbanknow.com', '_blank')}
     >
-      <Video ref={videoRef} muted playsInline loop src={VIDEO_URL} />
+      <Video ref={videoRef} muted playsInline loop src={cardVideoUrl} />
       <ItemBox
         initial={{ opacity: 0 }}
         animate={{ opacity: inView ? 1 : 0 }}

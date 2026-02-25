@@ -1,3 +1,93 @@
+const BASE = process.env.PUBLIC_URL || '';
+
+export const brandImages = [
+  `${BASE}/assets/brand/barnd_01.png`,
+  `${BASE}/assets/brand/barnd_02.png`,
+  `${BASE}/assets/brand/barnd_03.png`,
+  `${BASE}/assets/brand/barnd_04.png`,
+];
+
+export const depositData = [
+  {
+    title: '쓸 때마다 돈이 되는\n케이뱅크 대표통장',
+    accent: '생활통장',
+    desc: '쓰면 쓸수록 쌓이는 리워드\n일상적인 거래로도 혜택을 받아요',
+    imgUrl: `${BASE}/assets/deposit/reward.png`,
+    bg: '#f0f4ff',
+  },
+  {
+    title: '괜찮았던 오늘을\n기억하는 방법',
+    accent: '기분통장',
+    desc: '기분 따라 담는 저축 습관\n감정에도 매일매일 이자가 붙는다구요',
+    imgUrl: `${BASE}/assets/deposit/merged_grid.png`,
+    bg: '#f5f0ff',
+  },
+  {
+    title: '궁금해서 읽다보면\n저절로 모을걸요?',
+    accent: '궁금한 적금',
+    desc: '하루하루 입금할 때마다\n재미있는 짤을 만나요',
+    imgUrl: `${BASE}/assets/deposit/deposit_sukidoki.png`,
+    bg: '#ffffff',
+  },
+];
+
+export const loanData = [
+  {
+    title: '내게 딱 맞는 상품을\n추천해주는',
+    accent: '신용대출',
+    desc: '여러 가지 상품을 한번에 심사해서\n공동인증서 없이 빠르게 추천해 드려요',
+    imgUrl: `${BASE}/assets/loan/loan_multioffer.png`,
+    bg: '#f5f0ff',
+  },
+  {
+    title: '해지 없이 95%까지\n예금 적금',
+    accent: '담보대출',
+    desc: '중도상환 수수료 없이\n원하는 방식으로 갚을 수 있어요',
+    imgUrl: `${BASE}/assets/loan/loan_collateral.png`,
+    bg: '#ede8ff',
+  },
+  {
+    title: '이자는 더 낮게\n혜택은 더 크게',
+    accent: '대출비교서비스',
+    desc: '신용점수에 영향 없이\n69개 금융사 대출을 비교해요',
+    imgUrl: `${BASE}/assets/loan/loan_compare.png`,
+    bg: '#faf9ff',
+  },
+];
+
+export const investImages = [
+  `${BASE}/assets/invest/invest01.png`,
+  `${BASE}/assets/invest/invest02.png`,
+  `${BASE}/assets/invest/invest03.png`,
+  `${BASE}/assets/invest/invest04.png`,
+];
+
+export const investProfileImages = [
+  `${BASE}/assets/invest/invest_profile.png`,
+  `${BASE}/assets/invest/SmeMore.png`,
+];
+
+export const lifeData = [
+  {
+    title: '하루 한번의',
+    title2: '습관이면 충분해요',
+    desc: '당신의 일상이 모여 자라나는 돈나무,\n하루 한 번의 습관이면 분명히 달라져요',
+    videoUrl: `${BASE}/assets/life/life_moneytree.mp4`,
+  },
+  {
+    title: '오늘 우유 값',
+    title2: '싼걸까? 비싼걸까?',
+    desc: '돈되는 기회가 생활에 더 가까이\n기분좋게 찾아옵니다',
+    videoUrl: `${BASE}/assets/life/life_lifemarket.mp4`,
+  },
+];
+
+export const cardVideoUrl = `${BASE}/assets/card/card_gallaxycard.mp4`;
+export const galaxyBgUrl = `${BASE}/assets/card/GalaxyBackground01.jpg`;
+export const kbankLogoUrl = `${BASE}/assets/kbank/KbankLogo.png`;
+export const smeHomeUrl = `${BASE}/assets/sme/sme_home.png`;
+export const smeHeaderUrl = `${BASE}/assets/sme/sme_home_header.png`;
+
 export const storyMockData = [
   {
     id: 1,
@@ -22,82 +112,5 @@ export const storyMockData = [
     title: '대출 전에 꼭 알아야 할\n신용점수 관리법',
     subDesc: '내 신용점수 지키는 5가지 방법',
     imgUrl: 'https://picsum.photos/seed/kbank4/400/640',
-  },
-];
-
-export const brandImages = [
-  'https://picsum.photos/seed/brand1/400/640',
-  'https://picsum.photos/seed/brand2/400/640',
-  'https://picsum.photos/seed/brand3/400/640',
-  'https://picsum.photos/seed/brand4/400/640',
-];
-
-export const depositData = [
-  {
-    title: '쓸 때마다 돈이 되는\n케이뱅크 대표통장',
-    accent: '생활통장',
-    desc: '쓰면 쓸수록 쌓이는 리워드\n일상적인 거래로도 혜택을 받아요',
-    imgUrl: 'https://picsum.photos/seed/deposit1/300/300',
-    bg: '#f0f4ff',
-  },
-  {
-    title: '괜찮았던 오늘을\n기억하는 방법',
-    accent: '기분통장',
-    desc: '기분 따라 담는 저축 습관\n감정에도 매일매일 이자가 붙는다구요',
-    imgUrl: 'https://picsum.photos/seed/deposit2/300/300',
-    bg: '#f5f0ff',
-  },
-  {
-    title: '궁금해서 읽다보면\n저절로 모을걸요?',
-    accent: '궁금한 적금',
-    desc: '하루하루 입금할 때마다\n재미있는 짤을 만나요',
-    imgUrl: 'https://picsum.photos/seed/deposit3/300/300',
-    bg: '#ffffff',
-  },
-];
-
-export const loanData = [
-  {
-    title: '내게 딱 맞는 상품을\n추천해주는',
-    accent: '신용대출',
-    desc: '여러 가지 상품을 한번에 심사해서\n공동인증서 없이 빠르게 추천해 드려요',
-    imgUrl: 'https://picsum.photos/seed/loan1/300/300',
-    bg: '#f5f0ff',
-  },
-  {
-    title: '해지 없이 95%까지\n예금 적금',
-    accent: '담보대출',
-    desc: '중도상환 수수료 없이\n원하는 방식으로 갚을 수 있어요',
-    imgUrl: 'https://picsum.photos/seed/loan2/300/300',
-    bg: '#ede8ff',
-  },
-  {
-    title: '이자는 더 낮게\n혜택은 더 크게',
-    accent: '대출비교서비스',
-    desc: '신용점수에 영향 없이\n69개 금융사 대출을 비교해요',
-    imgUrl: 'https://picsum.photos/seed/loan3/300/300',
-    bg: '#faf9ff',
-  },
-];
-
-export const investImages = [
-  'https://picsum.photos/seed/invest1/300/500',
-  'https://picsum.photos/seed/invest2/300/500',
-  'https://picsum.photos/seed/invest3/300/500',
-  'https://picsum.photos/seed/invest4/300/500',
-];
-
-export const lifeData = [
-  {
-    title: '하루 한번의',
-    title2: '습관이면 충분해요',
-    desc: '당신의 일상이 모여 자라나는 돈나무,\n하루 한 번의 습관이면 분명히 달라져요',
-    videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
-  },
-  {
-    title: '오늘 우유 값',
-    title2: '싼걸까? 비싼걸까?',
-    desc: '돈되는 기회가 생활에 더 가까이\n기분좋게 찾아옵니다',
-    videoUrl: 'https://www.w3schools.com/html/movie.mp4',
   },
 ];

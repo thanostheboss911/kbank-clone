@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { useInView } from '../../hooks/useInView';
+import { smeHomeUrl } from '../../data/mockData';
 
 const Container = styled.div`
   width: 100%;
@@ -168,7 +169,7 @@ const SectionCard06 = ({ onView }: { onView?: () => void }) => {
         </ItemBox>
         <PhoneFrame>
           <img
-            src="https://picsum.photos/seed/sme_scroll/300/1200"
+            src={smeHomeUrl}
             alt="SME"
             style={{
               width: '100%',

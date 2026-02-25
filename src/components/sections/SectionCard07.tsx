@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { useInView } from '../../hooks/useInView';
 import { useEffect } from 'react';
+import { kbankLogoUrl } from '../../data/mockData';
 
 const Container = styled.div`
   width: 100%;
@@ -66,7 +67,7 @@ const SectionCard07 = ({ onView }: { onView?: () => void }) => {
         animate={inView ? { opacity: 1, y: -20 } : { opacity: 0 }}
         transition={{ duration: 1 }}
       >
-        <LogoText>K</LogoText>
+        <img src={kbankLogoUrl} alt="케이뱅크" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '1rem' }} />
       </LogoBox>
       <TextBox
         initial={{ opacity: 0, y: 0 }}

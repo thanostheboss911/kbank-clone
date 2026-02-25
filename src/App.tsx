@@ -5,6 +5,7 @@ import { ThemeProvider } from '@emotion/react';
 import { GlobalStyle } from './styles/GlobalStyle';
 import { theme } from './styles/theme';
 import Header from './components/layout/Header';
+import { galaxyBgUrl } from './data/mockData';
 import TitleCard from './components/common/TitleCard';
 import SectionCard01 from './components/sections/SectionCard01';
 import SectionCard02 from './components/sections/SectionCard02';
@@ -23,11 +24,11 @@ const BgLayer = styled(motion.div)`
   transition: background 1s ease-in-out;
 `;
 
-const GalaxyOverlay = styled.div<{ active: boolean }>`
+const GalaxyOverlay = styled.div<{ active: boolean; bgUrl: string }>`
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image: url('https://picsum.photos/seed/galaxy/800/1400');
+  background-image: url('${({ bgUrl }) => bgUrl}');
   background-size: cover;
   background-position: center;
   opacity: ${({ active }) => (active ? 0.15 : 0)};
@@ -70,7 +71,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <BgLayer animate={{ background: GRADIENTS[bgIdx] }} transition={{ duration: 1.5, ease: 'easeInOut' }} />
-      <GalaxyOverlay active={galaxyBg} />
+      <GalaxyOverlay active={galaxyBg} bgUrl={galaxyBgUrl} />
       <Header />
       <PageWrapper>
         {/* Section 01 — 브랜드 */}
