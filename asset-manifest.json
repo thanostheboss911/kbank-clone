@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/kbank-clone/static/css/main.e643cddc.css",
-    "main.js": "/kbank-clone/static/js/main.75472808.js",
+    "main.js": "/kbank-clone/static/js/main.ed0488dd.js",
     "static/js/453.114b4c90.chunk.js": "/kbank-clone/static/js/453.114b4c90.chunk.js",
     "index.html": "/kbank-clone/index.html",
     "main.e643cddc.css.map": "/kbank-clone/static/css/main.e643cddc.css.map",
-    "main.75472808.js.map": "/kbank-clone/static/js/main.75472808.js.map",
+    "main.ed0488dd.js.map": "/kbank-clone/static/js/main.ed0488dd.js.map",
     "453.114b4c90.chunk.js.map": "/kbank-clone/static/js/453.114b4c90.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e643cddc.css",
-    "static/js/main.75472808.js"
+    "static/js/main.ed0488dd.js"
   ]
 }
